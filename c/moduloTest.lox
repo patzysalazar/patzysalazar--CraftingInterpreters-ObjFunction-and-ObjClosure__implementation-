@@ -1,0 +1,25 @@
+print "";
+print "even or odd program";
+print "*********************";
+//Input an integer to input1 to know if it's an even number
+var input1 = 11; // testing variable input
+
+
+print "Your input is";
+print input1;
+var total = modulo(input1, 2); // modulo result
+if(modulo(input1, 1) != 0){ // if not a whole number
+    print "your input is not a whole number";
+    print "input a whole number and try again";
+}
+else { // if whole number test if even number
+    if(total == 0){
+        print "This is an even number";
+
+    }
+    else{
+        print "This is an odd number";
+
+    }
+}
+print "********************";

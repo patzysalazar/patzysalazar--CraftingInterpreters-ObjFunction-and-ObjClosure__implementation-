@@ -1,0 +1,11 @@
+print "Radius of a circle program using its Area";
+print "*********************************************";
+//Input an int for area of a circle
+var area = 25;
+var pi = 3.14159;
+
+var radius  = sqrt(area/pi);// radious calculation
+
+print "The radius of the circle is";
+print radius;// print result
+print "*********************************************";

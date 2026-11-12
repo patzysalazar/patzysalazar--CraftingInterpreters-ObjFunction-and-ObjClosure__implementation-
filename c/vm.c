@@ -12,6 +12,8 @@
 //< Calls and Functions vm-include-time
 #include <stdlib.h>
 
+#include <math.h>
+
 //< vm-include-stdio
 #include "common.h"
 //> Scanning on Demand vm-include-compiler
@@ -40,7 +42,58 @@ static bool NativeError(int argCount, Value* args) {// Native Error function tes
     return false;// tells VM the native fcn failed
 }
 
+static bool NativeModulo(int argCount, Value* args) {
+ bool input1 = IS_NUMBER(args[0]);// checks if input numbers
+ bool input2 = IS_NUMBER(args[1]);
+ if (input1 == true && input2 == true){// if both inputs are numbers
+    double numb1 = AS_NUMBER(args[0]);// set as numbers
+    double numb2 = AS_NUMBER(args[1]);
+    if(numb2 == 0){// if second input is 0 retunr error
+    ObjString* errorMessage =copyString("second input cannot be 0", strlen("second input cannot be 0"));
+     args[-1] = OBJ_VAL(errorMessage);
+     return false;
+    }
+    else{// proceed
+    double ModCalculation = fmod(numb1, numb2);// calculates modulus
+    args[-1] = NUMBER_VAL(ModCalculation);
+    return true;// tells VM the native fcn was a success
+    }
+ }
+ else if(input1 == false || input2 == false){// if the inputs are not numbers, display message and return false
+ ObjString* errorMessage =copyString("inputs should be numbers", strlen("inputs should be numbers"));
+ args[-1] = OBJ_VAL(errorMessage);
+ return false;
+ }
+}
 
+
+static bool NativeSqrt(int argCount, Value* args) {
+ bool input1 = IS_NUMBER(args[0]);
+ if(input1 == true){
+ double numb1 = AS_NUMBER(args[0]);// set as number
+ if(numb1 < 0){
+   ObjString* errorMessage =copyString("input can't be negative", strlen("input can't be negative"));
+   args[-1] = OBJ_VAL(errorMessage);
+   return false;
+
+ }
+ else{
+   double sqrtCalculation = sqrt(numb1);
+   args[-1] = NUMBER_VAL(sqrtCalculation);
+   return true;// tells VM the native fcn was a success
+    }
+
+ }
+
+ else if( input1 == false){
+  ObjString* errorMessage =copyString("input should be a number", strlen("input should be a number"));
+  args[-1] = OBJ_VAL(errorMessage);
+  return false;
+
+ }
+
+
+}
 //< Calls and Functions clock-native
 //> reset-stack
 static void resetStack() {
@@ -144,6 +197,10 @@ vm.stackCap = 0;
 //> Calls and Functions define-native-clock
 
   defineNative("clock", clockNative, 0);// now only accepts 0 arguments, before no check
+  defineNative("modulo", NativeModulo, 2);
+  defineNative("sqrt", NativeSqrt, 1);
+
+
 //< Calls and Functions define-native-clock
 }
 
