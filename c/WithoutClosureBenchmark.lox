@@ -1,0 +1,20 @@
+// no closure test
+
+fun prntHello(){// returning hello function
+    return "hello";
+}
+
+var helloMsg = nil;
+
+var startClock = clock();// start time
+
+for(var i = 1; i <= 1000000; i = i + 1){
+     helloMsg = prntHello();//get hello
+}
+var endClock = clock();// end time
+var totalTime = endClock - startClock;// total time for benchmark calculation
+
+print helloMsg;
+print totalTime;
+
+

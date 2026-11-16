@@ -1,0 +1,21 @@
+// closure test
+fun outer(){// outer function
+    var hello = "hello";// upvalue to be captured
+    fun prntHello(){// inner function
+        return hello;//captured variable
+    }
+    return prntHello;
+}
+
+var helloMsg = nil;
+
+var startClock = clock();
+
+for(var i = 1; i <= 1000000; i = i + 1){
+     helloMsg = outer()();//calls outer and the inner function to get "hello"
+}
+var endClock = clock();
+var totalTime = endClock - startClock;// total time for benchmark calculation
+
+print helloMsg;
+print totalTime;

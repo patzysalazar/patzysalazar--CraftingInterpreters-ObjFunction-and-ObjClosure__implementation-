@@ -178,13 +178,14 @@ typedef struct {
 typedef struct {
   Obj obj;
   Value receiver;
-  ObjClosure* method;
+  //ObjClosure* method;
+  Obj* method;// stores reg function or closure
 } ObjBoundMethod;
 
 //< Methods and Initializers obj-bound-method
 //> Methods and Initializers new-bound-method-h
 ObjBoundMethod* newBoundMethod(Value receiver,
-                               ObjClosure* method);
+                               Obj* method);
 //< Methods and Initializers new-bound-method-h
 //> Classes and Instances new-class-h
 ObjClass* newClass(ObjString* name);

@@ -1164,16 +1164,27 @@ static void function(FunctionType type) {
   emitBytes(OP_CONSTANT, makeConstant(OBJ_VAL(function)));
 */
 //> Closures emit-closure
-  emitBytes(OP_CLOSURE, makeConstant(OBJ_VAL(function)));
+//  emitBytes(OP_CLOSURE, makeConstant(OBJ_VAL(function)));
+
+ int upvaluesNumb = function->upvalueCount;// number of upvalues function has
 //< Closures emit-closure
 //> Closures capture-upvalues
-
+ if( upvaluesNumb > 0){// if the function has up values, use the OP_Closure
+  emitBytes(OP_CLOSURE, makeConstant(OBJ_VAL(function)));// bytecode to tell vm to create the closure for function
   for (int i = 0; i < function->upvalueCount; i++) {
-    emitByte(compiler.upvalues[i].isLocal ? 1 : 0);
-    emitByte(compiler.upvalues[i].index /256);// first byte
-    emitByte(compiler.upvalues[i].index % 256);// second byte for greater than 255 position
-    //emitByte(compiler.upvalues[i].index);
-  }
+     emitByte(compiler.upvalues[i].isLocal ? 1 : 0);
+     emitByte(compiler.upvalues[i].index /256);// first byte
+     emitByte(compiler.upvalues[i].index % 256);// second byte for greater than 255 position
+     //emitByte(compiler.upvalues[i].index);
+   }
+
+ }
+ else{// if function has no upvalues, use the OP_Constant ---- upvaluesNumb == 0
+  emitBytes(OP_CONSTANT, makeConstant(OBJ_VAL(function)));//compiler adds bytecode and VM gets function from constant pool and put on to stack
+ }
+
+
+
 //< Closures capture-upvalues
 }
 //< Calls and Functions compile-function

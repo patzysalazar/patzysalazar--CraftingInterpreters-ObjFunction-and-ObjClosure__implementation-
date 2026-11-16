@@ -247,7 +247,7 @@ static void markRoots() {
 //> mark-closures
 
   for (int i = 0; i < vm.frameCount; i++) {
-    markObject((Obj*)vm.frames[i].closure);
+    markObject(vm.frames[i].function);
   }
 //< mark-closures
 //> mark-open-upvalues
